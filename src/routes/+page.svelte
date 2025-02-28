@@ -21,6 +21,7 @@
     let model = $state("eng");
     let model_desc = $derived.by(() => descriptions[model]);
     let results = $state("");
+    let nrows = $state(4);
     let waiting = $state(false);
 
     async function on_fileselect_change(e: Event): void {
@@ -47,6 +48,7 @@
         let json = await response.json();
         waiting = false;
         results = json.text;
+        nrows = json.text.split(/\r\n|\r|\n/).length;
     }
 </script>
 
@@ -106,7 +108,7 @@
 {#if waiting}
     <ProgressRadial />
 {:else}
-    <textarea class="textarea" rows="4">{results}</textarea>
+    <textarea class="textarea" rows={nrows}>{results}</textarea>
 {/if}
 
 </div>
